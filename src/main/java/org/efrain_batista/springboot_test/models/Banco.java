@@ -1,0 +1,57 @@
+package org.efrain_batista.springboot_test.models;
+
+import java.util.Objects;
+
+public class Banco {
+
+    private Long id;
+
+    private String nombre;
+
+    private int totalTransferencias;
+
+    public Banco() {
+    }
+
+    public Banco(Long id, String nombre, Integer totalTransferencias) {
+        this.id = id;
+        this.nombre = nombre;
+        this.totalTransferencias = totalTransferencias;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public Integer getTotalTransferencias() {
+        return totalTransferencias;
+    }
+
+    public void setTotalTransferencias(Integer totalTransferencias) {
+        this.totalTransferencias = totalTransferencias;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Banco banco = (Banco) o;
+        return Objects.equals(id, banco.id) && Objects.equals(nombre, banco.nombre) && Objects.equals(totalTransferencias, banco.totalTransferencias);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, nombre, totalTransferencias);
+    }
+}
