@@ -1,12 +1,17 @@
 package org.efrain_batista.springboot_test.models;
 
+import jakarta.persistence.*;
 import org.efrain_batista.springboot_test.exceptions.DineroInsuficienteException;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Entity
+@Table(name = "cuentas")
 public class Cuenta {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String persona;

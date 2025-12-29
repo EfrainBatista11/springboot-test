@@ -20,6 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootTest
 class SpringbootTestApplicationTests {
@@ -73,10 +75,10 @@ class SpringbootTestApplicationTests {
         assertEquals(1, total);
         verify(cuentaRepository, times(3)).findById(1L);
         verify(cuentaRepository, times(3)).findById(2L);
-        verify(cuentaRepository, times(2)).update(any(Cuenta.class));
+        verify(cuentaRepository, times(2)).save(any(Cuenta.class));
 
         verify(bancoRepository, times(2)).findById(1L); // Por defecto verify es uno
-        verify(bancoRepository).update(any(Banco.class));
+        verify(bancoRepository).save(any(Banco.class));
 
         // Verificar que cualquier long se llama seis veces
         verify(cuentaRepository, times(6)).findById(anyLong());
@@ -111,10 +113,10 @@ class SpringbootTestApplicationTests {
 
         verify(cuentaRepository, times(3)).findById(1L);
         verify(cuentaRepository, times(2)).findById(2L);
-        verify(cuentaRepository, never()).update(any(Cuenta.class));
+        verify(cuentaRepository, never()).save(any(Cuenta.class));
 
         verify(bancoRepository, times(1)).findById(1L); // Por defecto verify es uno
-        verify(bancoRepository, never()).update(any(Banco.class));
+        verify(bancoRepository, never()).save(any(Banco.class));
 
         verify(cuentaRepository, times(5)).findById(anyLong());
         verify(cuentaRepository, never()).findAll();
@@ -131,5 +133,22 @@ class SpringbootTestApplicationTests {
         assertEquals("Efraín Batista", cuenta1.getPersona());
         assertEquals("Efraín Batista", cuenta2.getPersona());
         verify(cuentaRepository, times(2)).findById(1L);
+    }
+
+    @Test
+    void testFindAll() {
+        List<Cuenta> datos = Arrays.asList(crearCuenta001().orElseThrow(),
+                crearCuenta002().orElseThrow() );
+        when(cuentaRepository.findAll()).thenReturn(datos);
+
+        // When
+        List<Cuenta> cuentas = service.findAll();
+
+        // Then
+        assertFalse(cuentas.isEmpty());
+        assertEquals(2, cuentas.size());
+        assertTrue(cuentas.contains(crearCuenta002().orElseThrow()));
+
+        verify(cuentaRepository).findAll();
     }
 }
