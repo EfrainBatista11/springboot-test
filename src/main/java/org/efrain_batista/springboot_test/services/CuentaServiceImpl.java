@@ -36,7 +36,7 @@ public class CuentaServiceImpl implements CuentaService {
     @Override
     @Transactional
     public Cuenta save(Cuenta cuenta) {
-        return null;
+        return cuentaRepository.save(cuenta);
     }
 
     @Override
@@ -74,6 +74,12 @@ public class CuentaServiceImpl implements CuentaService {
         int totalTransferencias = banco.getTotalTransferencias();
         banco.setTotalTransferencias(++totalTransferencias);
         bancoRepository.save(banco);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        cuentaRepository.deleteById(id);
     }
 
 

@@ -5,9 +5,9 @@ import static org.efrain_batista.springboot_test.Datos.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.efrain_batista.springboot_test.models.Cuenta;
 import org.efrain_batista.springboot_test.models.TransaccionDto;
-import org.efrain_batista.springboot_test.repositories.CuentaRepository;
 import org.efrain_batista.springboot_test.services.CuentaService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +81,7 @@ class CuentaControllerTest {
 
         Map<String, Object> response = new HashMap<>();
         response.put("date", LocalDate.now().toString());
-        response.put("mensaje", "Transferencia realizada com éxito!");
+        response.put("mensaje", "Transferencia realizada con éxito!");
         response.put("transaccion", dto);
 
         System.out.println(objectMapper.writeValueAsString(response));
@@ -95,7 +95,7 @@ class CuentaControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.date").value(LocalDate.now().toString()))
-                .andExpect(jsonPath("$.mensaje").value("Transferencia realizada com éxito!"))
+                .andExpect(jsonPath("$.mensaje").value("Transferencia realizada con éxito!"))
                 .andExpect(jsonPath("$.transaccion.cuentaOrigenId").value(1L))
 
                 .andExpect(content().json(objectMapper.writeValueAsString(response)));
@@ -169,4 +169,6 @@ class CuentaControllerTest {
 
         verify(cuentaService).save(any());
     }
+
+
 }
