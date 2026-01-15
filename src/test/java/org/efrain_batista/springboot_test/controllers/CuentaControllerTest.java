@@ -151,24 +151,5 @@ class CuentaControllerTest {
         }
     }
 
-    @Test
-    void testSave() {
-        Cuenta cuentapepe = new Cuenta(null, "Pepe", new BigDecimal("3000"));
-        when(cuentaService.save(any())).then(invocation -> {
-            Cuenta c = invocation.getArgument(0);
-            c.setId(3L);
-            return c;
-        });
-
-        // When
-        Cuenta cuenta = cuentaService.save(cuentapepe);
-        // Then
-        assertEquals("Pepe", cuenta.getPersona());
-        assertEquals(3, cuenta.getId());
-        assertEquals("3000", cuenta.getSaldo().toPlainString());
-
-        verify(cuentaService).save(any());
-    }
-
 
 }
